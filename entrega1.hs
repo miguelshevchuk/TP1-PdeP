@@ -29,8 +29,7 @@ zombieTranqui = Zombie ataqueTranqui
 zombieConCasco = Zombie ataquePolenta
 zombieSinDientes = Zombie ataqueNulo
 
-ataqueAProtagonista (Protagonista nombre vida) zombie  = Protagonista nombre ((getAtaque zombie) vida)
--- ataqueAProtagonista protagonista zombie  = setVida protagonista ((getAtaque zombie) vida)
+ataqueAProtagonista protagonista zombie = setVida protagonista ((getAtaque zombie) (getVida protagonista))
 
 -- EJERCICIO 3: ataqueAProtagnista (ataqueAProtagonista carol zombieConCasco) zombieTranqui
 
