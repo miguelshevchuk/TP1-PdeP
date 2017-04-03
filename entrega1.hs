@@ -1,44 +1,52 @@
 import Text.Show.Functions
 
 type Nombre = String
-type Vida = Float
-type Ataque = Float -> Float
+type Vida = Int
+type Ataque = Protagonista -> Protagonista
 
 data Protagonista = Protagonista Nombre Vida deriving(Show)
-
-getVida (Protagonista _ vida) = vida
-getNombre (Protagonista nombre _) = nombre
-setNombre (Protagonista _ vida) nombreNuevo = Protagonista nombreNuevo vida
-setVida (Protagonista nombre _) vidaNueva = Protagonista nombre vidaNueva
-
 data Zombie = Zombie Ataque deriving(Show)
-getAtaque (Zombie ataque) = ataque
+
+-- GETTERS Y SETTERS PROTAGONISTA
+getVidaProtagonista (Protagonista _ vida) = vida
+getNombreProtagonista (Protagonista nombre _) = nombre
+setNombreProtagonista (Protagonista _ vida) nombreNuevo = Protagonista nombreNuevo vida
+setVidaProtagonista vidaNueva (Protagonista nombre _) = Protagonista nombre vidaNueva
+
+-- GETTERS ZOMBIE
+getAtaqueZombie (Zombie ataque) = ataque
 
 --Protagonistas EJERCICIO 1
 daryl = Protagonista "Daryl" 55
 maggie = Protagonista "Maggie" 100
 carol = Protagonista "Carol" 200
 
--- Ataques Zombies
-ataqueTranqui vida = vida -10
-ataquePolenta vida = vida / 2
-ataqueNulo = id
-
 --Zombies EJERCICIO 2
 zombieTranqui = Zombie ataqueTranqui
-zombieConCasco = Zombie ataquePolenta
-zombieSinDientes = Zombie ataqueNulo
+zombieConCasco = Zombie ataqueZombieConCasco
+zombieSinDientes = Zombie ataqueSinDientes
 
-ataqueAProtagonista protagonista zombie = setVida protagonista ((getAtaque zombie) (getVida protagonista))
+-- Ataques Zombies
+ataqueTranqui protagonista = setVidaProtagonista (getVidaProtagonista protagonista -10) protagonista
+ataqueZombieConCasco protagonista= setVidaProtagonista (div (getVidaProtagonista protagonista) 2) protagonista
+ataqueSinDientes = id
 
--- EJERCICIO 3: ataqueAProtagnista (ataqueAProtagonista carol zombieConCasco) zombieTranqui
+-- Funcion -> pasar zombie y protagonista
+ataqueAProtagonista = getAtaqueZombie
 
+-- EJERCICIO 3: ataqueAProtagnista zombieTranqui (ataqueAProtagonista zombieConCasco carol)
 
 --ACCIONES EJERCICIO 4
 
 matarZombie protagonista zombie = protagonista
-caerse protagonista zombie = ataqueAProtagonista (ataqueAProtagonista protagonista zombie) zombie
-sacrificarse (Protagonista nombre vida) zombie =  Protagonista nombre 0
+caerse protagonista zombie = ataqueAProtagonista zombie (ataqueAProtagonista zombie protagonista)
+sacrificarse protagonista zombie =  setVidaProtagonista 0 protagonista
+
+-- Segunda opcion
+
+-- matarZombie = id
+-- caerse protagonista zombie = ataqueAProtagonista zombie (ataqueAProtagonista zombie protagonista)
+-- sacrificarse =  setVidaProtagonista 0
 
 -- EJERCICIO 5: sacrificarse carol zombieTranqui
 
