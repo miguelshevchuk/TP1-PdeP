@@ -1,6 +1,5 @@
 import Text.Show.Functions
 
-
 type Nombre = String
 type Vida = Int
 type Ataque = Protagonista -> Protagonista
