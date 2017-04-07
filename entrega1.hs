@@ -4,35 +4,28 @@ type Nombre = String
 type Vida = Int
 type Ataque = Protagonista -> Protagonista
 
-data Protagonista = Protagonista Nombre Vida deriving(Show)
-data Zombie = Zombie Ataque deriving(Show)
+data Protagonista = Protagonista {nombre::Nombre, vida::Vida } deriving(Show)
+data Zombie = Zombie {ataqueZombie::Ataque} deriving(Show)
 
--- GETTERS Y SETTERS PROTAGONISTA
-getVidaProtagonista (Protagonista _ vida) = vida
-getNombreProtagonista (Protagonista nombre _) = nombre
-setNombreProtagonista (Protagonista _ vida) nombreNuevo = Protagonista nombreNuevo vida
-setVidaProtagonista vidaNueva (Protagonista nombre _) = Protagonista nombre vidaNueva
-
--- GETTERS ZOMBIE
-getAtaqueZombie (Zombie ataque) = ataque
+setVidaProtagonista vidaNueva protagonista = protagonista{vida = vidaNueva}
 
 --Protagonistas EJERCICIO 1
-daryl = Protagonista "Daryl" 55
-maggie = Protagonista "Maggie" 100
-carol = Protagonista "Carol" 200
+daryl = Protagonista {nombre = "Daryl", vida = 55}
+maggie = Protagonista {nombre = "Maggie", vida = 100}
+carol = Protagonista {nombre = "Carol", vida = 200}
 
 --Zombies EJERCICIO 2
-zombieTranqui = Zombie ataqueTranqui
-zombieConCasco = Zombie ataqueZombieConCasco
-zombieSinDientes = Zombie ataqueSinDientes
+zombieTranqui = Zombie {ataqueZombie = ataqueTranqui}
+zombieConCasco = Zombie {ataqueZombie = ataqueZombieConCasco}
+zombieSinDientes = Zombie {ataqueZombie = ataqueSinDientes}
 
 -- Ataques Zombies
-ataqueTranqui protagonista = setVidaProtagonista (getVidaProtagonista protagonista -10) protagonista
-ataqueZombieConCasco protagonista= setVidaProtagonista (div (getVidaProtagonista protagonista) 2) protagonista
+ataqueTranqui protagonista = setVidaProtagonista (vida protagonista -10) protagonista
+ataqueZombieConCasco protagonista= setVidaProtagonista (div (vida protagonista) 2) protagonista
 ataqueSinDientes = id
 
 -- Funcion -> pasar zombie y protagonista
-ataqueAProtagonista = getAtaqueZombie
+ataqueAProtagonista = ataqueZombie
 
 -- EJERCICIO 3: ataqueAProtagnista zombieTranqui (ataqueAProtagonista zombieConCasco carol)
 
