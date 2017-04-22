@@ -12,12 +12,11 @@ instance Eq Protagonista where
     nombre protagonista1 == nombre protagonista2 &&
     vida protagonista1 == vida protagonista2
 
-
 nuevaVidaProtagonista vidaNueva protagonista = protagonista{vida = vidaNueva}
 nuevosSeresQueridosProtagonista amigosNuevos protagonista = protagonista{seresQueridos = amigosNuevos}
 
 --Protagonistas EJERCICIO 1
-daryl = Protagonista {nombre = "Daryl", vida = 55, seresQueridos = [carol], reaccion = sacrificarse}
+daryl = Protagonista {nombre = "Daryl", vida = 55, seresQueridos = [carol], reaccion = comerSemillas 30}
 maggie = Protagonista {nombre = "Maggie", vida = 100, seresQueridos = [carol, daryl, krilin], reaccion = caerse}
 carol = Protagonista {nombre = "Carol", vida = 200, seresQueridos = [victor], reaccion = matarZombie}
 victor = Protagonista {nombre = "Victor Sueiro", vida = 1, seresQueridos = [], reaccion = sacrificarse}
@@ -34,6 +33,7 @@ zombieBuenaso hambre protagonista | (length.seresQueridos) protagonista > hambre
 
 zombieReSacado protagonista = nuevosSeresQueridosProtagonista ((map zombieTranqui.map zombieConCasco.seresQueridos) protagonista) (zombieTranqui protagonista)
 
+-- estaMuerto protagonista = (vida protagonista) == 0 && not(any (==krilin) (seresQueridos protagonista)) && not(any (==victor) (seresQueridos protagonista))
 estaMuerto protagonista = (vida protagonista) == 0 && not(any (==krilin) (seresQueridos protagonista)) && not(any (==victor) (seresQueridos protagonista))
 
 -- EJERCICIO 3: (zombieTranqui.zombieConCasco) carol
@@ -44,6 +44,18 @@ estaMuerto protagonista = (vida protagonista) == 0 && not(any (==krilin) (seresQ
 matarZombie zombie = id
 caerse zombie = zombie.zombie
 sacrificarse zombie =  nuevaVidaProtagonista 0
+comerSemillas cantidad zombie protagonista | estaMuerto (zombie protagonista) = protagonista
+                                    | cantidad <= 10 = nuevaVidaProtagonista 100 protagonista
+                                    -- | otherwise = morirseDefinitivamente protagonista
+
+
+
+-- FUNCIONES EXTRAS
+
+-- pelearseConProtagonistas (x : xs) protagonista  | x = pelearseConProtagonistas xs (nuevosSeresQueridosProtagonista (filter (==x) (seresQueridos protagonista)) protagonista)
+--                                                 | otherwise = protagonista
+
+-- morirseDefinitivamente protagonista = pelearseConProtagonistas [krilin, victor] (nuevaVidaProtagonista 0 protagonista)
 
 -- EJERCICIO 5: sacrificarse zombieTranqui carol
 --Resultado: Protagonista (nombre = "Carol", vida = 0)
