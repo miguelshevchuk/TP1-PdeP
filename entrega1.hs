@@ -139,4 +139,11 @@ Resultado: ["Daryl","Krilin"]
 -}
 
 --BONUS
-generarListaEterna (x:xs) repeticion = x
+
+obtenerConcatenacion funcion = funcion.funcion
+
+listaInfinitaBonus = [zombieTranqui] ++ iterate obtenerConcatenacion zombieTranqui
+
+-- Consulta : listaInfinitaBonus
+
+-- Consulta 2: (take 10.filter ((<=25).vida.flip ($) maggie))  listaInfinitaBonus
